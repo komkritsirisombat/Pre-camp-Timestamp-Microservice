@@ -38,8 +38,13 @@ app.get('/api/:date', (request, response) => {
     responseObject['utc'] = new Date(date_string).toUTCString();
   }
 
+  /*
   if (!responseObject['unix'] || !responseObject['utc']) {
-    response.json({ error: 'Invalid Date' });
+    responseObject['error'] = 'Invalid Date';
+  }*/
+  let date = new Date(date_string);
+  if (date.toString() == 'Invalid Date') {
+    response.json({'error': 'Invalid date'});
   }
 
   response.json(responseObject);
