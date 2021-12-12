@@ -24,17 +24,18 @@ app.get("/api/hello", function (req, res) {
   res.json({ greeting: 'hello API' });
 });
 
+
 let responseObject = {};
-app.get('/api/timestamp/:input', (request, response) => {
-  let input = request.params.input;
-  if (input.includes('-')) {
-    responseObject['unix'] = new Date(input).getTime();
-    responseObject['utc'] = new Date(input).toUTCString();
+app.get('/api/:date?', (request, response) => {
+  let date_string = request.params.date;
+  if (date_string.includes('-')) {
+    responseObject['unix'] = new Date(date_string).getTime();
+    responseObject['utc'] = new Date(date_string).toUTCString();
   } else {
     /*timestamp*/
-    input = parseInt(input);
-    responseObject['unix'] = new Date(input).getTime();
-    responseObject['utc'] = new Date(input).toUTCString();
+    date_string = parseInt(date_string);
+    responseObject['unix'] = new Date(date_string).getTime();
+    responseObject['utc'] = new Date(date_string).toUTCString();
   }
 
   if (!responseObject['unix'] || !responseObject['utc']) {
@@ -44,7 +45,8 @@ app.get('/api/timestamp/:input', (request, response) => {
   response.json(responseObject);
 });
 
-app.get('/api/timestamp', (request, response) => {
+
+app.get('/api', (request, response) => {
   responseObject['unix'] = new Date().getTime();
   responseObject['utc'] = new Date().toUTCString();
   response.json(responseObject);
